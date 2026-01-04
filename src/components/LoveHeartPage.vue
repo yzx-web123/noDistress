@@ -58,7 +58,7 @@ const imageDetails = [
 const imageItems = ref([]);
 for (let i = 0; i < 60; i++) {
   imageItems.value.push({
-    image: `/images/${images[i % images.length]}`,
+    image: `vite-project/public/images/${images[i % images.length]}`,
     title: imageDetails[i % imageDetails.length].title,
     description: imageDetails[i % imageDetails.length].description,
   });
@@ -367,7 +367,7 @@ const getItemStyle = (index) => {
     width: 60px;
     height: 60px;
   }
-  
+
   .tree-content {
     height: 550px;
   }
