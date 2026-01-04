@@ -42,43 +42,43 @@ const onItemMouseLeave = (index) => {
 
 const carouselImages = ref([
   {
-    image: "/images/1.jpg",
+    image: "./images/1.jpg",
     alt: "Image 1",
   },
   {
-    image: "/images/2.png",
+    image: "./images/2.png",
     alt: "Image 2",
   },
   {
-    image: "/images/3.jpg",
+    image: "./images/3.jpg",
     alt: "Image 3",
   },
   {
-    image: "/images/4.jpg",
+    image: "./images/4.jpg",
     alt: "Image 4",
   },
   {
-    image: "/images/5.jpg",
+    image: "./images/5.jpg",
     alt: "Image 5",
   },
   {
-    image: "/images/6.png",
+    image: "./images/6.png",
     alt: "Image 6",
   },
   {
-    image: "/images/7.jpg",
+    image: "./images/7.jpg",
     alt: "Image 7",
   },
   {
-    image: "/images/8.png",
+    image: "./images/8.png",
     alt: "Image 8",
   },
   {
-    image: "/images/9.jpg",
+    image: "./images/9.jpg",
     alt: "Image 9",
   },
   {
-    image: "/images/10.png",
+    image: "./images/10.png",
     alt: "Image 10",
   },
 ]);

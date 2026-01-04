@@ -58,7 +58,7 @@ const imageDetails = [
 const imageItems = ref([]);
 for (let i = 0; i < 60; i++) {
   imageItems.value.push({
-    image: `./images/${images[i % images.length]}`,
+    image: `/images/${images[i % images.length]}`,
     title: imageDetails[i % imageDetails.length].title,
     description: imageDetails[i % imageDetails.length].description,
   });
