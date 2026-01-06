@@ -396,95 +396,6 @@ const goToPage = (page) => {
   }
 }
 
-/* 分页控件样式 */
-.pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  margin-top: 40px;
-  padding: 20px;
-  position: relative;
-  z-index: 1;
-}
-
-.pagination-btn {
-  background-color: rgba(241, 196, 15, 0.1);
-  border: 1px solid rgba(241, 196, 15, 0.3);
-  color: #f1c40f;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.pagination-btn:hover:not(:disabled) {
-  background-color: rgba(241, 196, 15, 0.2);
-  border-color: rgba(241, 196, 15, 0.5);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(241, 196, 15, 0.2);
-}
-
-.pagination-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.pagination-numbers {
-  display: flex;
-  gap: 8px;
-}
-
-.pagination-number {
-  background-color: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(241, 196, 15, 0.2);
-  color: #ffffff;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.pagination-number:hover:not(.active) {
-  background-color: rgba(241, 196, 15, 0.1);
-  border-color: rgba(241, 196, 15, 0.4);
-  color: #f1c40f;
-  transform: translateY(-2px);
-}
-
-.pagination-number.active {
-  background-color: rgba(241, 196, 15, 0.3);
-  border-color: rgba(241, 196, 15, 0.6);
-  color: #f1c40f;
-  font-weight: bold;
-}
-
-@media (max-width: 768px) {
-  .pagination {
-    gap: 8px;
-    padding: 15px;
-  }
-
-  .pagination-btn {
-    padding: 8px 15px;
-    font-size: 0.9rem;
-  }
-
-  .pagination-number {
-    width: 35px;
-    height: 35px;
-    font-size: 0.9rem;
-  }
-}
-
 @media (max-width: 480px) {
   .page-title {
     font-size: 2rem;
@@ -514,22 +425,6 @@ const goToPage = (page) => {
 
   .modal-header h2 {
     font-size: 1.3rem;
-  }
-
-  .pagination {
-    gap: 5px;
-    padding: 10px;
-  }
-
-  .pagination-btn {
-    padding: 6px 12px;
-    font-size: 0.8rem;
-  }
-
-  .pagination-number {
-    width: 30px;
-    height: 30px;
-    font-size: 0.8rem;
   }
 }
 </style>

@@ -286,9 +286,7 @@ onUnmounted(() => {
 <style scoped>
 .photo-sphere-container {
   width: 100%;
-  height: 60vh; /* 使用视口高度，确保在不同屏幕尺寸下都可见 */
-  min-height: 400px; /* 设置最小高度 */
-  max-height: 800px; /* 设置最大高度 */
+  height: 600px;
   position: relative;
   overflow: hidden;
   border-radius: 10px;
