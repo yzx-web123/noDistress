@@ -254,7 +254,7 @@ watch(
 <style scoped>
 .music-player {
   position: fixed;
-  bottom: 150px;
+  bottom: 20px;
   right: 20px;
   width: 300px;
   background-color: rgba(17, 17, 17, 0.9);
@@ -263,7 +263,7 @@ watch(
   box-shadow: 0 0 20px rgba(255, 167, 143, 0.3);
   padding: 16px;
   backdrop-filter: blur(10px);
-  z-index: 99999;
+  z-index: 9999;
   transition: all 0.3s ease;
   animation: fadeIn 0.5s ease;
   max-height: 90vh;

@@ -202,6 +202,8 @@ const onMouseDown = (event) => {
   isDragging = true;
   previousMouseX = event.clientX;
   previousMouseY = event.clientY;
+  // 阻止默认行为
+  event.preventDefault();
 };
 
 // 鼠标移动事件
@@ -295,7 +297,6 @@ onUnmounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1;
 }
 
 .canvas-container {

@@ -120,7 +120,7 @@ watch(
   <div class="music-player">
     <audio
       ref="audioRef"
-      :src="currentSong.src"
+      :src="songs[currentSongIndex].src"
       @timeupdate="handleTimeUpdate"
       @loadedmetadata="handleLoadedMetadata"
       @ended="handleEnded"
@@ -128,7 +128,7 @@ watch(
 
     <!-- 歌曲列表切换按钮 -->
     <div class="playlist-toggle">
-      <button @click="togglePlaylist" class="playlist-btn">
+      <button @click="showPlaylist = !showPlaylist" class="playlist-btn">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
           <path
             d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"
@@ -199,8 +199,8 @@ watch(
     </div>
 
     <div class="player-info">
-      <div class="song-title">{{ currentSong.title }}</div>
-      <div class="song-artist">{{ currentSong.artist }}</div>
+      <div class="song-title">{{ songs[currentSongIndex].title }}</div>
+      <div class="song-artist">{{ songs[currentSongIndex].artist }}</div>
     </div>
 
     <div class="progress-container">
@@ -254,7 +254,7 @@ watch(
 <style scoped>
 .music-player {
   position: fixed;
-  bottom: 150px;
+  bottom: 20px;
   right: 20px;
   width: 300px;
   background-color: rgba(17, 17, 17, 0.9);
@@ -263,12 +263,11 @@ watch(
   box-shadow: 0 0 20px rgba(255, 167, 143, 0.3);
   padding: 16px;
   backdrop-filter: blur(10px);
-  z-index: 99999;
+  z-index: 1000;
   transition: all 0.3s ease;
   animation: fadeIn 0.5s ease;
   max-height: 90vh;
   overflow: hidden;
-  pointer-events: auto;
 }
 
 .playlist-toggle {

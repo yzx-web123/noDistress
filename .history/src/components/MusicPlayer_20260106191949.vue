@@ -254,7 +254,7 @@ watch(
 <style scoped>
 .music-player {
   position: fixed;
-  bottom: 150px;
+  bottom: 20px;
   right: 20px;
   width: 300px;
   background-color: rgba(17, 17, 17, 0.9);
@@ -269,6 +269,7 @@ watch(
   max-height: 90vh;
   overflow: hidden;
   pointer-events: auto;
+  position: relative;
 }
 
 .playlist-toggle {

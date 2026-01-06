@@ -254,7 +254,7 @@ watch(
 <style scoped>
 .music-player {
   position: fixed;
-  bottom: 150px;
+  bottom: 100px;
   right: 20px;
   width: 300px;
   background-color: rgba(17, 17, 17, 0.9);

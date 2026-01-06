@@ -44,18 +44,16 @@ const init = () => {
 
   // 创建相机
   camera = new THREE.PerspectiveCamera(
-    60, // 视角调整为 60 度，提供更合适的视野
+    60, // 调整视角，使球体在容器中居中显示
     window.innerWidth / window.innerHeight,
     0.1,
     1000
   );
-  camera.position.z = 3.5; // 调整相机距离，确保球体完全居中
+  camera.position.z = 4; // 保持相机距离，确保球体完整显示
 
   // 创建渲染器
   renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-  const containerWidth = canvasContainer.value.clientWidth;
-  const containerHeight = canvasContainer.value.clientHeight;
-  renderer.setSize(containerWidth, containerHeight);
+  renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(window.devicePixelRatio);
   canvasContainer.value.appendChild(renderer.domElement);
 
@@ -77,17 +75,17 @@ const init = () => {
   // 监听窗口大小变化
   window.addEventListener("resize", onWindowResize);
 
-  // 监听鼠标移动 - 只在canvas上
-  renderer.domElement.addEventListener("mousemove", onMouseMove);
+  // 监听鼠标移动
+  window.addEventListener("mousemove", onMouseMove);
 
-  // 监听鼠标按下 - 只在canvas上
-  renderer.domElement.addEventListener("mousedown", onMouseDown);
+  // 监听鼠标按下
+  window.addEventListener("mousedown", onMouseDown);
 
-  // 监听鼠标释放 - 只在canvas上
-  renderer.domElement.addEventListener("mouseup", onMouseUp);
+  // 监听鼠标释放
+  window.addEventListener("mouseup", onMouseUp);
 
-  // 监听鼠标离开 - 只在canvas上
-  renderer.domElement.addEventListener("mouseleave", onMouseUp);
+  // 监听鼠标离开
+  window.addEventListener("mouseleave", onMouseUp);
 
   // 开始动画循环
   animate();
@@ -190,11 +188,9 @@ const createPhotoSphere = () => {
 
 // 窗口大小变化事件
 const onWindowResize = () => {
-  const containerWidth = canvasContainer.value.clientWidth;
-  const containerHeight = canvasContainer.value.clientHeight;
-  camera.aspect = containerWidth / containerHeight;
+  camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
-  renderer.setSize(containerWidth, containerHeight);
+  renderer.setSize(window.innerWidth, window.innerHeight);
 };
 
 // 鼠标按下事件
@@ -202,6 +198,8 @@ const onMouseDown = (event) => {
   isDragging = true;
   previousMouseX = event.clientX;
   previousMouseY = event.clientY;
+  // 阻止默认行为
+  event.preventDefault();
 };
 
 // 鼠标移动事件
@@ -268,11 +266,11 @@ onMounted(() => {
 onUnmounted(() => {
   // 移除事件监听器
   window.removeEventListener("resize", onWindowResize);
+  window.removeEventListener("mousemove", onMouseMove);
+  window.removeEventListener("mousedown", onMouseDown);
+  window.removeEventListener("mouseup", onMouseUp);
+  window.removeEventListener("mouseleave", onMouseUp);
   if (renderer && renderer.domElement) {
-    renderer.domElement.removeEventListener("mousemove", onMouseMove);
-    renderer.domElement.removeEventListener("mousedown", onMouseDown);
-    renderer.domElement.removeEventListener("mouseup", onMouseUp);
-    renderer.domElement.removeEventListener("mouseleave", onMouseUp);
     renderer.domElement.removeEventListener("click", handleClick);
   }
 
@@ -295,7 +293,6 @@ onUnmounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1;
 }
 
 .canvas-container {

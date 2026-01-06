@@ -202,6 +202,8 @@ const onMouseDown = (event) => {
   isDragging = true;
   previousMouseX = event.clientX;
   previousMouseY = event.clientY;
+  // 阻止默认行为
+  event.preventDefault();
 };
 
 // 鼠标移动事件
@@ -268,11 +270,11 @@ onMounted(() => {
 onUnmounted(() => {
   // 移除事件监听器
   window.removeEventListener("resize", onWindowResize);
+  window.removeEventListener("mousemove", onMouseMove);
+  window.removeEventListener("mousedown", onMouseDown);
+  window.removeEventListener("mouseup", onMouseUp);
+  window.removeEventListener("mouseleave", onMouseUp);
   if (renderer && renderer.domElement) {
-    renderer.domElement.removeEventListener("mousemove", onMouseMove);
-    renderer.domElement.removeEventListener("mousedown", onMouseDown);
-    renderer.domElement.removeEventListener("mouseup", onMouseUp);
-    renderer.domElement.removeEventListener("mouseleave", onMouseUp);
     renderer.domElement.removeEventListener("click", handleClick);
   }
 
@@ -295,7 +297,6 @@ onUnmounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1;
 }
 
 .canvas-container {

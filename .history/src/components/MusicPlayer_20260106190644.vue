@@ -1,39 +1,119 @@
 <script setup>
-import { ref, onMounted, watch } from "vue";
-import { useRoute } from "vue-router";
-import {
-  songs,
-  currentSong,
-  currentSongIndex,
-  isPlaying,
-  volume,
-  currentTime,
-  duration,
-  showPlaylist,
-  play,
-  pause,
-  togglePlay,
-  playPrevious,
-  playNext,
-  playSong,
-  setCurrentTime,
-  setDuration,
-  setVolume,
-  togglePlaylist,
-} from "../stores/musicPlayer";
+import { ref, onMounted, onUnmounted } from "vue";
 
+// 动态读取 music 文件夹中的所有音乐文件
+const musicFiles = import.meta.glob("/public/music/*", { as: "url" });
+
+// 解析歌曲信息
+const parseSongInfo = (filename) => {
+  // 去除文件扩展名
+  const nameWithoutExt = filename.replace(/\.[^/.]+$/, "");
+  // 尝试解析标题和艺术家（假设格式为 "艺术家 - 标题" 或 "艺术家_标题"）
+  let artist = "未知艺术家";
+  let title = nameWithoutExt;
+
+  if (nameWithoutExt.includes(" - ")) {
+    const parts = nameWithoutExt.split(" - ");
+    artist = parts[0];
+    title = parts[1];
+  } else if (nameWithoutExt.includes(" _ ")) {
+    const parts = nameWithoutExt.split(" _ ");
+    artist = parts[0];
+    title = parts[1];
+  }
+
+  return {
+    artist,
+    title,
+  };
+};
+
+// 构建歌曲列表
+const songs = ref([]);
+for (const [path, urlImporter] of Object.entries(musicFiles)) {
+  // 提取文件名（如 "尚雯婕 - 鹿 be free (Live).ogg"）
+  const filename = path.split("/").pop();
+  // 解析歌曲信息
+  const { artist, title } = parseSongInfo(filename);
+  // 构造音频源路径（使用相对路径）
+  const src = `./music/${filename}`;
+  // 添加到歌曲列表
+  songs.value.push({
+    title,
+    artist,
+    src,
+  });
+}
+
+const currentSongIndex = ref(0);
+const isPlaying = ref(false);
+const volume = ref(0.5);
+const currentTime = ref(0);
+const duration = ref(0);
 const audioRef = ref(null);
-const route = useRoute();
+const showPlaylist = ref(false);
+
+const play = () => {
+  if (audioRef.value) {
+    audioRef.value.play();
+    isPlaying.value = true;
+  }
+};
+
+const pause = () => {
+  if (audioRef.value) {
+    audioRef.value.pause();
+    isPlaying.value = false;
+  }
+};
+
+const togglePlay = () => {
+  if (isPlaying.value) {
+    pause();
+  } else {
+    play();
+  }
+};
+
+const playPrevious = () => {
+  currentSongIndex.value =
+    (currentSongIndex.value - 1 + songs.value.length) % songs.value.length;
+  currentTime.value = 0;
+  setTimeout(() => {
+    if (isPlaying.value) {
+      play();
+    }
+  }, 0);
+};
+
+const playNext = () => {
+  currentSongIndex.value = (currentSongIndex.value + 1) % songs.value.length;
+  currentTime.value = 0;
+  setTimeout(() => {
+    if (isPlaying.value) {
+      play();
+    }
+  }, 0);
+};
+
+const playSong = (index) => {
+  currentSongIndex.value = index;
+  currentTime.value = 0;
+  setTimeout(() => {
+    play();
+  }, 0);
+  showPlaylist.value = false;
+};
 
 const handleTimeUpdate = () => {
   if (audioRef.value) {
-    setCurrentTime(audioRef.value.currentTime);
+    currentTime.value = audioRef.value.currentTime;
   }
 };
 
 const handleLoadedMetadata = () => {
   if (audioRef.value) {
-    setDuration(audioRef.value.duration);
+    duration.value = audioRef.value.duration;
   }
 };
 
@@ -42,12 +122,15 @@ const handleEnded = () => {
 };
 
 const handleVolumeChange = (e) => {
-  setVolume(parseFloat(e.target.value));
+  volume.value = parseFloat(e.target.value);
+  if (audioRef.value) {
+    audioRef.value.volume = volume.value;
+  }
 };
 
 const handleSeek = (e) => {
   const seekTime = parseFloat(e.target.value);
-  setCurrentTime(seekTime);
+  currentTime.value = seekTime;
   if (audioRef.value) {
     audioRef.value.currentTime = seekTime;
   }
@@ -63,64 +146,21 @@ const formatTime = (time) => {
 onMounted(() => {
   if (audioRef.value) {
     audioRef.value.volume = volume.value;
-    // 如果当前应该播放且音频已经加载，继续播放
-    if (isPlaying.value) {
-      audioRef.value.play().catch(() => {
-        // 自动播放可能会被浏览器阻止
-        console.log("自动播放被阻止");
-      });
-    }
   }
 });
 
-// 监听播放状态变化
-watch(isPlaying, (newValue) => {
+onUnmounted(() => {
   if (audioRef.value) {
-    if (newValue) {
-      audioRef.value.play().catch(() => {
-        console.log("播放被阻止");
-        isPlaying.value = false;
-      });
-    } else {
-      audioRef.value.pause();
-    }
+    audioRef.value.pause();
   }
 });
-
-// 监听音量变化
-watch(volume, (newValue) => {
-  if (audioRef.value) {
-    audioRef.value.volume = newValue;
-  }
-});
-
-// 监听当前播放歌曲变化
-watch(currentSongIndex, () => {
-  if (audioRef.value) {
-    audioRef.value.currentTime = 0;
-    if (isPlaying.value) {
-      audioRef.value.play().catch(() => {
-        console.log("播放被阻止");
-        isPlaying.value = false;
-      });
-    }
-  }
-});
-
-// 监听路由变化，确保播放器不会被重新渲染
-watch(
-  () => route.path,
-  () => {
-    // 不需要做任何操作，因为播放器在 App.vue 中
-  }
-);
 </script>
 
 <template>
   <div class="music-player">
     <audio
       ref="audioRef"
-      :src="currentSong.src"
+      :src="songs[currentSongIndex].src"
       @timeupdate="handleTimeUpdate"
       @loadedmetadata="handleLoadedMetadata"
       @ended="handleEnded"
@@ -128,7 +168,7 @@ watch(
 
     <!-- 歌曲列表切换按钮 -->
     <div class="playlist-toggle">
-      <button @click="togglePlaylist" class="playlist-btn">
+      <button @click="showPlaylist = !showPlaylist" class="playlist-btn">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
           <path
             d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"
@@ -199,8 +239,8 @@ watch(
     </div>
 
     <div class="player-info">
-      <div class="song-title">{{ currentSong.title }}</div>
-      <div class="song-artist">{{ currentSong.artist }}</div>
+      <div class="song-title">{{ songs[currentSongIndex].title }}</div>
+      <div class="song-artist">{{ songs[currentSongIndex].artist }}</div>
     </div>
 
     <div class="progress-container">
@@ -254,7 +294,7 @@ watch(
 <style scoped>
 .music-player {
   position: fixed;
-  bottom: 150px;
+  bottom: 20px;
   right: 20px;
   width: 300px;
   background-color: rgba(17, 17, 17, 0.9);
@@ -263,12 +303,11 @@ watch(
   box-shadow: 0 0 20px rgba(255, 167, 143, 0.3);
   padding: 16px;
   backdrop-filter: blur(10px);
-  z-index: 99999;
+  z-index: 1000;
   transition: all 0.3s ease;
   animation: fadeIn 0.5s ease;
   max-height: 90vh;
   overflow: hidden;
-  pointer-events: auto;
 }
 
 .playlist-toggle {
