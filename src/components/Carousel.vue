@@ -74,11 +74,11 @@ const carouselImages = ref([
     alt: "Image 8",
   },
   {
-    image: "/images/9.jpg",
+    image: "/images/sha1.png",
     alt: "Image 9",
   },
   {
-    image: "/images/10.png",
+    image: "/images/chu1.jpg",
     alt: "Image 10",
   },
 ]);
