@@ -2,7 +2,7 @@
  * @Author: yzx-web123 1184699248@qq.com
  * @Date: 2026-01-04 22:49:56
  * @LastEditors: yzx-web123 1184699248@qq.com
- * @LastEditTime: 2026-01-05 00:23:24
+ * @LastEditTime: 2026-01-06 22:32:33
  * @FilePath: \vite-project\src\components\BaYePage.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -23,7 +23,7 @@
         >
           <img :src="member.src" :alt="member.title" class="photo-img" />
           <div class="photo-overlay">
-            <h3>{{ member.title }}</h3>
+            <h3>{{ member.gameId }}</h3>
             <p>{{ member.description }}</p>
           </div>
         </div>
@@ -64,7 +64,7 @@
     <div class="modal" v-if="selectedPhoto" @click="closeModal">
       <div class="modal-content" @click.stop>
         <div class="modal-header">
-          <h2>{{ selectedPhoto.title }}</h2>
+          <h2>{{ selectedPhoto.gameId }}</h2>
           <button class="close-btn" @click="closeModal">&times;</button>
         </div>
         <div class="modal-body">

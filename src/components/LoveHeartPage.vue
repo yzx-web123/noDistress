@@ -20,8 +20,8 @@
           </div>
           <div class="avatar-info">
             <h3>{{ item.title }}</h3>
-            <p>职业 ID: {{ item.professionId }}</p>
-            <p>称谓: {{ item.title }}</p>
+            <!-- <p>职业 ID: {{ item.professionId }}</p> -->
+            <p>{{ item.professionId }}</p>
           </div>
         </div>
       </div>

@@ -42,35 +42,35 @@ const onItemMouseLeave = (index) => {
 
 const carouselImages = ref([
   {
-    image: "/images/1.jpg",
+    image: "/images/banli.jpg",
     alt: "Image 1",
   },
   {
-    image: "/images/2.png",
+    image: "/images/cijian.png",
     alt: "Image 2",
   },
   {
-    image: "/images/3.jpg",
+    image: "/images/chenhe.png",
     alt: "Image 3",
   },
   {
-    image: "/images/4.jpg",
+    image: "/images/chuqi.jpg",
     alt: "Image 4",
   },
   {
-    image: "/images/5.jpg",
+    image: "/images/xiangyu.jpg",
     alt: "Image 5",
   },
   {
-    image: "/images/6.png",
+    image: "/images/huaqingying.png",
     alt: "Image 6",
   },
   {
-    image: "/images/7.jpg",
+    image: "/images/shuye.png",
     alt: "Image 7",
   },
   {
-    image: "/images/8.png",
+    image: "/images/tongtong.jpg",
     alt: "Image 8",
   },
   {

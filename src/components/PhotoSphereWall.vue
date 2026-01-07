@@ -5,7 +5,7 @@
     <div class="modal" v-if="selectedPhoto" @click="closeModal">
       <div class="modal-content" @click.stop>
         <div class="modal-header">
-          <h2>{{ selectedPhoto.title }}</h2>
+          <h2>{{ selectedPhoto.gameId }}</h2>
           <button class="close-btn" @click="closeModal">&times;</button>
         </div>
         <div class="modal-body">
